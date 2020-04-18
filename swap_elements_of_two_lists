@@ -1,0 +1,64 @@
+import sys
+
+def check(list):
+    for i in range(len(list)-1):
+        if list[i] >= list[i+1]:
+            return i
+
+    return 'PASS'
+
+def swap(list1, list2, pos):
+    list1[pos], list2[pos] = list2[pos], list1[pos]
+    return list1, list2
+
+def log(list, pos):
+    if pos is not 'PASS':
+        list.append(pos)
+        return list
+
+
+
+array1 = sys.stdin.readline().split()
+array2 = sys.stdin.readline().split()
+
+array1 = list(map(int, array1))
+array2 = list(map(int, array2))
+
+pos1_list = []
+pos2_list = []
+swap_num = 0
+while True:
+    pos1 = check(array1)
+    if pos1 is not 'PASS':
+        pos1 = int(pos1)
+        pos1_list.append(pos1)
+        if array2[pos1] >= array1[pos1+1]:
+            print('-1')
+            break
+        else:
+            array1, array2 = swap(array1, array2, pos1)
+            swap_num = swap_num + 1
+
+    pos2 = check(array2)
+    if pos2 is not 'PASS':
+        pos2 = int(pos2)
+        pos2_list.append(pos2)
+        if set(pos1_list).intersection(pos2_list):
+            print('-1')
+            break
+        if array1[pos2] >= array2[pos2 + 1]:
+            print('-1')
+            break
+        else:
+            array1, array2 = swap(array1, array2, pos2)
+            swap_num = swap_num + 1
+
+    if pos1 == 'PASS' and pos2 == 'PASS':
+        print(swap_num)
+        break
+    print(array1)
+    print(array2)
+
+
+
+
